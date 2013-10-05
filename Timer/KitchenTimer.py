@@ -3,11 +3,10 @@ __email__ = 'hikingko1@gmail.com'
 from threading import Timer
 
 class KitchenTimer:
-    unit_time = 60
-    lapse_time = 0
-    threads = []
     def __init__(self, time):
-        print "init"
+        self.unit_time = 60
+        self.lapse_time = 0
+        self.threads = []
         self.time = time
 
     def on_time_up(self): pass
@@ -29,3 +28,11 @@ class KitchenTimer:
         t.start()
 
     def join(self):
+        while(len(self.threads) < self.time):
+            for each_thread in self.threads:
+                if each_thread.is_alive():
+                    each_thread.join(self.unit_time)
+        for each_thread in self.threads:
+            if each_thread.is_alive():
+                each_thread.join(self.unit_time)
+        print "end",len(self.threads),self.time

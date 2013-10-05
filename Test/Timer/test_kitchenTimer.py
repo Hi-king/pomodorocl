@@ -1,5 +1,6 @@
 from unittest import TestCase
-from KitchenTimer import KitchenTimer
+from Timer.KitchenTimer import KitchenTimer
+#from KitchenTimer import KitchenTimer
 
 __author__ = 'ogaki'
 
@@ -10,10 +11,7 @@ class TestKitchenTimer(TestCase):
         kitchentimer = KitchenTimer(5)
         kitchentimer.unit_time = 0.1
         kitchentimer.start()
-        while(len(kitchentimer.threads) < 5):
-            for each_thread in kitchentimer.threads:
-                if each_thread.is_alive():
-                    each_thread.join(1)
+        kitchentimer.join()
         self.assertEqual(len(kitchentimer.threads), 5)
 
     def test_on_each_minutes(self):
@@ -25,11 +23,5 @@ class TestKitchenTimer(TestCase):
             self.o += 1
         kitchentimer.on_each_minutes = tmp_each_minutes
         kitchentimer.start()
-        while(len(kitchentimer.threads) < 5):
-            for each_thread in kitchentimer.threads:
-                if each_thread.is_alive():
-                    each_thread.join(1)
-        for each_thread in kitchentimer.threads:
-            if each_thread.is_alive():
-                each_thread.join(1)
+        kitchentimer.join()
         self.assertEqual(self.o, 5)
