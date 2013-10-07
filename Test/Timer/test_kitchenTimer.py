@@ -1,6 +1,5 @@
 from unittest import TestCase
-from Timer.KitchenTimer import KitchenTimer
-#from KitchenTimer import KitchenTimer
+from Timer import KitchenTimer
 
 __author__ = 'ogaki'
 
