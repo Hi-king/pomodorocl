@@ -32,17 +32,22 @@ parser.add_argument('--cal', help='name of the calendar to add log to')
 ## Main
 ##=========================
 import os
+import time
 sys.path.append(os.path.dirname(__file__))
 print sys.path
-from Timer import KitchenTimer
+from timer import KitchenTimer
+from notifysend.notifysend import Notifier
 
 
 class PomodoroTimer(KitchenTimer):
     def __init__(self, time, message="pomodoro finished"):
         KitchenTimer.__init__(self, time)
         self.message = message
+        self.notifier = Notifier(message)
 
     def on_time_up(self):
+        self.notifier.send()
+        time.sleep(60)
         print self.message
 
 

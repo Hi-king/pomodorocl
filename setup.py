@@ -12,7 +12,7 @@ class PyTest(Command):
 setup(
     name='pomodoro',
     version='',
-    packages=['Test', 'Test.Timer', 'Timer'],
+    packages=['test', 'test.timer', 'timer'],
     url='',
     license='',
     author='hiking',

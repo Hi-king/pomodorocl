@@ -1,5 +1,5 @@
 from unittest import TestCase
-from Timer import KitchenTimer
+from timer import KitchenTimer
 
 __author__ = 'ogaki'
 
