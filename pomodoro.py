@@ -33,21 +33,40 @@ parser.add_argument('--cal', help='name of the calendar to add log to')
 ##=========================
 import os
 import time
+import datetime
+import os
+from datetime import timedelta
+
 sys.path.append(os.path.dirname(__file__))
 print sys.path
 from timer import KitchenTimer
 from notifysend.notifysend import Notifier
+from calendar_accessor import CalendarAccessor
 
+class PomodoroCalendarAccessor(CalendarAccessor):
+    def __init__(self, filename):
+        CalendarAccessor.__init__(self, filename)
+    def insert_event(self, calname, delta):
+        end_time = datetime.datetime.utcfromtimestamp(time.time())
+        start_time = end_time - timedelta(minutes=delta)
+        start_str = start_time.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        end_str = end_time.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        CalendarAccessor.insert_event(self, calname, start_str, end_str)
 
 class PomodoroTimer(KitchenTimer):
     def __init__(self, time, message="pomodoro finished"):
         KitchenTimer.__init__(self, time)
         self.message = message
         self.notifier = Notifier(message)
+        self.accessor = PomodoroCalendarAccessor(os.environ['HOME']+"/.pomodoro")
+
+    def on_each_minutes(self):
+        print self.lapse_time
 
     def on_time_up(self):
         self.notifier.send()
-        time.sleep(60)
+        #time.sleep(60)
+        self.accessor.insert_event("log", self.time)
         print self.message
 
 
