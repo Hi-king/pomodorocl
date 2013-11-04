@@ -25,7 +25,7 @@ class CalendarAccessor:
             print "error parse config %s " % filename
             raise
 
-    def insert_event(self, calname, start, end, title="pomodoro"):
+    def insert_event(self, calname, start, end, title="event"):
 
         for eachcal in self.calendar_service.GetOwnCalendarsFeed().entry:
             if eachcal.title.text == calname:
@@ -33,11 +33,11 @@ class CalendarAccessor:
                 break
         else:
             print "Calendar %s not found" % calname
-            raise "Calendar %s not found" % calname
+            raise Exception("Calendar %s not found" % calname)
 
 
         event = gdata.calendar.CalendarEventEntry()
-        event.title = atom.Title(text='tst')
+        event.title = atom.Title(text=title)
         event.content = atom.Content(text="test content")
         event.when.append(gdata.calendar.When(start_time=start, end_time=end))
         result = self.calendar_service.InsertEvent(event, cal.content.src)
