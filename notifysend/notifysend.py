@@ -5,15 +5,25 @@ try:
 except ImportError:
     import pync
 
-
 class Notifier:
+    def __init__(self, message=""):
+        try:
+            _tmp = pynotify
+            self.notifier = LinuxNotifier(message=message)
+        except NameError:
+            self.notifier = MacNotifier(message=message)
+
+    def send(self):
+        self.notifier.send()
+
+class MacNotifier:
     """for Mac"""
     def __init__(self, message=""):
         self.message = message
     def send(self):
         pync.Notifier.notify(self.message)
 
-class LinNotifier:
+class LinuxNotifier:
     """for Linux"""
     def __init__(self, message=""):
         pynotify.init(message)
