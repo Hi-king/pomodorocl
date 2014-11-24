@@ -50,6 +50,8 @@ class PomodoroCalendarAccessor(CalendarAccessor):
         start_time = end_time - timedelta(minutes=delta)
         start_str = start_time.strftime("%Y-%m-%dT%H:%M:%S.000Z")
         end_str = end_time.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        # start_str = start_time.strftime("%Y-%m-%d %H:%M:%S")
+        # end_str = end_time.strftime("%Y-%m-%d %H:%M:%S")
         CalendarAccessor.insert_event(self, calname, start_str, end_str, title=title)
 
 class PomodoroTimer(KitchenTimer):
