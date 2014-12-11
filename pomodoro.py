@@ -60,7 +60,6 @@ class PomodoroTimer(KitchenTimer):
         self.message = message
         self.calname = calname
         self.notifier = Notifier(message)
-        self.accessor = PomodoroCalendarAccessor(os.environ['HOME']+"/.pomodoro")
 
     def on_each_minutes(self):
         print self.lapse_time / self.unit_time
@@ -68,6 +67,7 @@ class PomodoroTimer(KitchenTimer):
     def on_time_up(self):
         self.notifier.send()
         #time.sleep(60)
+        self.accessor = PomodoroCalendarAccessor(os.environ['HOME']+"/.pomodoro") # create just before use because of token freshness
         self.accessor.insert_event(self.calname, self.time, self.message)
         print self.message
 
